@@ -1,95 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Echoes — Preserve Conversations. Preserve Connections.</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Echoes — Preserve Conversations. Preserve Connections.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libertinus+Sans&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="vision-bg.png">
+  <style>
+    :root {
+      --accent: #FFB6B9;
+      --skin: #F5E0D3;
+      --grey: #E8E6E3;
+      --text: #3A3341;
+      --nav-h: 64px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; width: 100vw; }
+    body { font-family: 'Inter', sans-serif; background: var(--skin); color: var(--text); overflow-x: hidden; }
+    .viewport {
+      height: 100vh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Libertinus+Sans&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="vision-bg.png">
+    /* STICKY NAVBAR */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      height: var(--nav-h);
+      min-height: var(--nav-h);
+      max-height: var(--nav-h);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      width: 100%;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .nav .brand-logo img { width: 160px; height: auto; display: block; }
+    .header-logo { width: 160px; height: auto; }
+    .nav a {
+      color: var(--text); text-decoration: none; font-weight: 600; margin-left: 20px; font-size: 16px;
+      transition: color 0.25s;
+    }
+    .nav a:hover { color: #000; }
+    @media (max-width: 768px) {
+      .nav-inner { flex-direction: column; align-items: center; padding: 10px 20px; }
+      .nav-inner div { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 8px; }
+      .nav a { margin-left: 0; font-size: 15px; }
+      .nav .brand-logo img { width: 120px; }
+    }
 
+    /* ALL SECTIONS (Slides) */
+    .section {
+      min-height: 100vh;
+      scroll-snap-align: start;
+      box-sizing: border-box;
+      padding: calc(var(--nav-h) + 20px) 20px 20px 20px; /* Space for navbar above */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      background: var(--skin);
+    }
+    .section h2 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(28px,3.5vw,44px);
+      margin: 18px 0 24px 0;
+    }
+    .section:nth-child(even) { background: var(--grey); }
+    @media (max-width: 768px) {
+      .section { padding-top: calc(var(--nav-h) + 40px); padding-bottom: 5vw;}
+      .section h2 { margin-top: 15px; }
+    }
 
-<style>
-:root {
-  --accent:#FFB6B9;
-  --skin:#F5E0D3;
-  --grey:#E8E6E3;
-  --text:#3A3341;
-  --nav-h:64px;
-}
-
-/* General resets */
-* { box-sizing:border-box; }
-html, body { margin:0; padding:0; height:100%; }
-body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text); overflow-x:hidden; overflow-y:auto; }
-
-.viewport{
-  height:100vh; overflow:auto;
-  scroll-snap-type:y mandatory; scroll-behavior:smooth;
-}
-
-/* Navbar */
-.nav { 
-  position: sticky; 
-  top: 0; 
-  z-index: 50; 
-  height: var(--nav-h);
-  display: flex; 
-  align-items: center;
-  background: rgba(255,255,255,.75); 
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(0,0,0,.06);
-}
-.nav-inner {
-  max-width: none;
-  width: 100%;
-  margin: 0;
-  padding: 0 20px;
+    /* ABOUT SLIDE (Special: Fill viewport below navbar and center content) */
+    /* ABOUT SLIDE (Special: Fill viewport below navbar and center content) */
+#about.section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.nav .brand-logo {
-  margin: 0; 
-  display: flex;
-  align-items: center;
-}
-.nav .brand-logo img {
-  display: block;
-  margin: 0;
-  width: 200px;
-  height: auto;
-}
-.header-logo { 
-  display: block; 
-  margin-left: 0;
-  width: 200px; 
-  height: auto; 
-}
-.nav a { 
-  color: var(--text); 
-  text-decoration: none; 
-  font-weight: 600; 
-  margin-left: 20px; 
-}
-.nav a:hover { color: #000; }
+  justify-content: center;
 
+  /* FIX: Make it fill full screen */
+  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
 
-/* Sections */
-.section{
-  min-height:100vh; scroll-snap-align:start;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; padding:40px 20px; 
-  padding-top:calc(40px + var(--nav-h));
-}
-.section:nth-child(even){ background:var(--grey); }
-.section:nth-child(odd){ background:var(--skin); }
-.section h2{ font-family:'Playfair Display',serif; font-size:clamp(28px,3.5vw,44px); margin:0 0 24px; }
+  /* Push content below navbar */
+  padding-top: var(--nav-h) !important;
+  margin: 0 !important;
 
-/* Rainbow hero */
-#about {
+  box-sizing: border-box;
   background: linear-gradient(
     270deg,
     #e8dace, #ddceb8, #fff59d, #c9eee0, #a0c4ff, #ccb5cc, #e7debd
@@ -98,43 +113,28 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   animation: rainbowMove 30s ease infinite;
   color: rgb(56, 26, 3);
 }
-@keyframes rainbowMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.logo-text{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(44px,7vw,88px); }
-.hero-sub {
-  max-width: 1000px;
-  margin: 16px auto 24px;
-  line-height: 1.6;
-  font-family: 'Libertinus Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  color: #222;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.btn {
-  display: inline-block;
-  padding: 14px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  background: #f4f4f4;
-  color: #222;
-  border: 2px solid #dfc9c9;
-  transition: all 0.3s;
-}
-.btn:hover {
-  background: #222;
-  color: #fff;
-  transform: translateY(-2px);
-}
 
-/* Features */
-#features h2 { margin-bottom: 50px; font-size: clamp(28px, 3.5vw, 40px); text-align: center; }
-.features-grid {
+    .logo-text { font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(44px,7vw,88px); margin-bottom:10px; }
+    .hero-sub {
+      max-width: 1000px;
+      margin: 16px auto 24px;
+      line-height: 1.6;
+      font-family: 'Libertinus Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #222;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .btn {
+      display:inline-block; padding:14px 24px; border-radius:12px; font-weight:600; text-decoration:none;
+      background:#f4f4f4; color:#222; border:2px solid #dfc9c9; transition:.3s;
+    }
+    .btn:hover { background:#222; color:#fff; transform:translateY(-2px); }
+
+    /* Features section - All 5 cards in ONE SLIDE */
+   /* Features grid - desktop */
+/* === Desktop Defaults === */
+#features .features-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
@@ -142,21 +142,31 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   margin: 0 auto;
   justify-content: center;
 }
+
 .feature-card {
   background: #fff;
   border: 1.5px solid var(--text);
   border-radius: 14px;
-  padding: 16px 14px;
+  padding: 22px 18px;
+  box-sizing: border-box;
   flex: 1 1 calc(33.333% - 32px);
   max-width: calc(33.333% - 32px);
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
-.feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+
+.feature-card h3 {
+  font-size: 1.18rem;
+  margin: 8px 0 6px;
 }
-.feature-card h3 { font-size: 1rem; margin: 8px 0 6px; }
-.feature-card p { font-size: .9rem; line-height: 1.35; margin: 0; }
+
+.feature-card p {
+  font-size: 0.97rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
 .feature-icon img {
   display: block;
   margin: 0 auto 12px;
@@ -164,327 +174,187 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   height: auto;
   transition: transform 0.4s ease;
 }
-.feature-card:hover .feature-icon img {
-  transform: scale(1.1) rotate(5deg);
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
 }
 
-/* Vision Section */
+.feature-card:hover .feature-icon img {
+  transform: scale(1.10) rotate(5deg);
+}
+
+/* === Mobile Version: 5 stacked in one full-slide === */
+@media only screen and (max-width: 900px) and (pointer: coarse) {
+  #features.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: calc(var(--nav-h) + 10px) 14px 14px;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+  }
+
+  #features .features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr); /* 5 equal vertical slots */
+    gap: 14px;
+    height: 100%; /* make grid fill slide */
+  }
+
+  .feature-card {
+    max-width: 100%;
+    padding: 14px 12px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .feature-icon img {
+    max-width: 50px;
+    margin-bottom: 8px;
+  }
+
+  .feature-card h3 {
+    font-size: 1rem;
+    margin: 4px 0;
+  }
+
+  .feature-card p {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+}
+
+/* === Vision Section === */
 .vision-section {
   position: relative;
-  background: 
-    linear-gradient(135deg, rgba(241, 205, 209, 0.4), rgba(242, 222, 193, 0.4), rgba(255,217,61,0.4), rgba(150, 231, 161, 0.4), rgba(168, 199, 242, 0.4)),
-    url('vision-bg.png') center center / cover no-repeat;
+  background: linear-gradient(
+      135deg,
+      rgba(241, 205, 209, 0.4),
+      rgba(242, 222, 193, 0.4),
+      rgba(255, 217, 61, 0.4),
+      rgba(150, 231, 161, 0.4),
+      rgba(168, 199, 242, 0.4)
+    ),
+    url('vision-bg.png') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
-  min-height: 80vh;
-  font-family: 'Libertinus Sans', sans-serif;
-  overflow: hidden;
+  min-height: 100vh;
   color: #000;
+  overflow: hidden;
+  scroll-snap-align: start;
 }
-.vision-section::before, .vision-section::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  z-index: 0;
-}
-.vision-section::before {
-  width: 150px; height: 150px;
-  background: rgba(255,255,255,0.2);
-  top: 20%; left: 10%;
-  animation: float 6s ease-in-out infinite alternate;
-}
-.vision-section::after {
-  width: 120px; height: 120px;
-  background: rgba(255,255,255,0.15);
-  bottom: 15%; right: 10%;
-  animation: float 8s ease-in-out infinite alternate-reverse;
-}
-@keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-20px); } }
+
 .vision-content {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
-  gap: 50px;
-  max-width: 1200px;
+  gap: 40px;
+  max-width: 1100px;
   width: 100%;
   flex-wrap: wrap;
 }
+
 .vision-title {
   flex: 1;
-  min-width: 250px;
+  min-width: 220px;
   font-family: 'Playfair Display', serif;
   font-size: clamp(36px, 4vw, 52px);
   font-weight: 800;
   color: #000;
-  text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
-  opacity: 0;
-  transform: translateX(-50px);
-  animation: slideInLeft 1s forwards 0.2s;
   text-align: left;
 }
+
 .vision-text {
   position: relative;
   flex: 2;
-  min-width: 300px;
-  background: rgba(255,255,255,0.3);
+  min-width: 250px;
+  background: rgba(255, 255, 255, 0.3);
   padding: 20px 30px;
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   font-size: 1.2rem;
   line-height: 1.6;
   color: #000;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   overflow: hidden;
 }
-.vision-text::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: url('vision-bg.png') center/cover no-repeat;
-  opacity: 0.2;
-  border-radius: 20px;
-  z-index: 0;
-}
+
 .vision-text p {
-  position: relative;
-  z-index: 1;
-}
-@keyframes slideInLeft { to { opacity: 1; transform: translateX(0); } }
-@keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
-
-/* Contact */
-#contact {
-  background: #F5F8FA;
-  padding: 80px 20px;
-  color: #222;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-#contact h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 4vw, 44px);
-  font-weight: 700;
-  margin-bottom: 40px;
-  margin-top: 32px;
-  color: #222;
-  z-index: 1;
-}
-#contact form {
-  max-width: 480px;
-  width: 100%;
-  background: #fff;
-  padding: 40px 30px;
-  border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: relative;
-  z-index: 1;
-}
-#contact input,
-#contact textarea {
-  min-height: 50px;
-  max-height: 400px;
-  resize: vertical;
-  padding: 10px;
-  font-family: 'Playfair Display', serif;
-  font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid var(--text);
-  line-height: 1.5;
-}
-#contact input:focus,
-#contact textarea:focus {
-  border-color: #a0c4ff;
-  box-shadow: 0 4px 12px rgba(160,196,255,0.3);
-}
-#contact button {
-  background: #a0c4ff;
-  color: #222;
-  border: none;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: all 0.3s;
-  position: relative;
-  z-index: 1;
-}
-#contact button:hover {
-  background: #222;
-  color: #fff;
-  transform: translateY(-2px);
-}
-#contact .icons {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  margin-top: 30px;
-  position: relative;
-  z-index: 1;
-}
-#contact .icons a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s, filter 0.3s;
-}
-#contact .icons a:hover {
-  transform: translateY(-5px) scale(1.15);
-  filter: brightness(1.2);
-}
-.footer-links {
-  margin-top: 24px;
-  font-size: 0.85rem;
-  color: #555;
-  position: relative;
-  z-index: 1;
-}
-.footer-links a {
-  color: #222;
-  text-decoration: none;
-  font-weight: 500;
-}
-.footer-links a:hover {
-  text-decoration: underline;
-}
-/* Floating pastel blobs */
-#contact::before,
-#contact::after,
-#contact .blob1,
-#contact .blob2,
-#contact .blob3 {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  z-index: 0;
-  opacity: 0.15;
-}
-/* Main blobs */
-#contact::before {
-  width: 200px;
-  height: 200px;
-  background: #a0c4ff;
-  top: 10%;
-  left: 5%;
-  animation: float1 6s ease-in-out infinite alternate;
-}
-#contact::after {
-  width: 150px;
-  height: 150px;
-  background: #ffd6a5;
-  bottom: 15%;
-  right: 10%;
-  animation: float2 8s ease-in-out infinite alternate-reverse;
-}
-#contact .blob1 {
-  width: 100px;
-  height: 100px;
-  background: #b5ead7;
-  top: 25%;
-  right: 20%;
-  animation: float3 7s ease-in-out infinite alternate;
-}
-#contact .blob2 {
-  width: 120px;
-  height: 120px;
-  background: #ffb6b9;
-  bottom: 20%;
-  left: 15%;
-  animation: float4 9s ease-in-out infinite alternate-reverse;
-}
-#contact .blob3 {
-  width: 80px;
-  height: 80px;
-  background: #fef9c3;
-  top: 50%;
-  left: 50%;
-  animation: float5 6s ease-in-out infinite alternate;
-}
-@keyframes float1 { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(-20px) translateX(10px); } }
-@keyframes float2 { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(-30px) translateX(-15px); } }
-@keyframes float3 { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(-15px) translateX(5px); } }
-@keyframes float4 { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(-25px) translateX(-10px); } }
-@keyframes float5 { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(-10px) translateX(5px); } }
-
-/* MOBILE ADJUSTMENTS */
-@media (max-width: 768px) {
-  .nav-inner {
-    flex-direction: column; align-items: center;
-    padding: 10px 20px;
-  }
-  .nav-inner div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 8px;
-  }
-  .nav a {
-    margin-left: 0;
-    font-size: 14px;
-  }
-  .brand-logo img { width: 160px; }
-  .section { 
-    padding-top: calc(72px + var(--nav-h));
-    padding-bottom: 30px;
-  }
-  .section h2, .logo-text, .vision-title {
-    margin-top: 32px !important;
-  }
-  .features-grid {
-    flex-direction: column;
-    gap: 18px;
-  }
-  .feature-card { max-width: 100%; flex: 1 1 100%; }
-  #contact .icons { gap: 36px; }
+  margin: 0;
 }
 
-@media (max-width: 600px) {
-  .vision-title {
-    font-size: clamp(28px, 6vw, 36px);
-    margin-top: 30px !important;
-  }
+@media (max-width: 900px) {
   .vision-content {
     flex-direction: column;
-    gap: 30px;
+    gap: 28px;
     text-align: center;
   }
-  .vision-text {
-    font-size: 1rem;
-    padding: 15px 15px;
+
+  .vision-title {
+    width: 100%;
+    text-align: center;
   }
-  #contact .icons { gap: 22px; }
-  #contact h2 { font-size: 24px; margin-bottom: 18px; }
-}
-
-/* Hide blobs for very small screens */
-@media (max-width: 420px) {
-  #contact .blob1, #contact .blob2, #contact .blob3 { display: none; }
 }
 
 
-</style>
+
+     
+
+    /* Contact Section */
+    #contact {
+      background: #F5F8FA;
+      min-height: 100vh;
+      padding: 80px 20px 40px 20px;
+      color: #222;
+      display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden;
+    }
+    #contact h2 { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,44px); font-weight:700; margin:18px 0 32px 0; color:#222; z-index:1; }
+    #contact form {
+      max-width: 480px; width:100%; background:#fff; padding:36px 24px; border-radius:20px; box-shadow:0 12px 30px rgba(0,0,0,.08);
+      display:flex; flex-direction:column; gap:16px; position:relative; z-index:1;
+    }
+    #contact input, #contact textarea {
+      min-height:50px; resize:vertical; padding:10px; font-family:'Playfair Display',serif; font-size:14px; border-radius:8px; border:1px solid var(--text); line-height:1.5; margin-bottom:10px;
+    }
+    #contact button {
+      background: #a0c4ff;
+      color: #222;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: all 0.3s;
+      margin-bottom: 2px;
+    }
+    #contact button:hover {
+      background: #222;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    #contact .icons { display:flex; justify-content:center; gap:32px; margin-top:22px; position:relative; z-index:1; }
+    #contact .icons a { display:inline-flex; align-items:center; justify-content:center; transition:transform .3s, filter .3s; }
+    #contact .icons a:hover { transform:translateY(-5px) scale(1.15); filter:brightness(1.2); }
+    .footer-links { margin-top:24px; font-size:.85rem; color:#555; }
+    @media (max-width: 420px) {
+      #contact .blob1, #contact .blob2, #contact .blob3 { display:none; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="viewport" id="viewport">
+<div class="viewport">
   <nav class="nav">
     <div class="nav-inner">
       <a href="#about" class="brand-logo" aria-label="Echoes — Back to About">
-  <img src="transparent-Photoroom.png" alt="Echoes logo" class="header-logo">
-</a>
-
+        <img src="transparent-Photoroom.png" alt="Echoes logo" class="header-logo">
+      </a>
       <div>
         <a href="#about">About</a>
         <a href="#features">Features</a>
@@ -493,7 +363,6 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
       </div>
     </div>
   </nav>
-
   <section id="about" class="section">
     <div class="logo-text">Echoes</div>
     <p class="hero-sub">
@@ -504,132 +373,90 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
     </p>
     <a class="btn" href="#features">Get Started</a>
   </section>
-
   <section id="features" class="section">
     <h2>Features</h2>
     <div class="features-grid">
-      <!-- Feature cards (same as your code) -->
       <div class="feature-card">
-<div class="feature-icon">
-    <img src="imagesauthentic-personas.png" alt="Authentic Personas" style="width:60px; height:60px;">
-  </div>
-  <h3>Authentic Personas</h3>
-  <p>AI that mirrors real conversation styles, tone, and emotional depth.</p>
-</div>
-
-<div class="feature-card">
-  <div class="feature-icon">
-    <img src="imagesprivacy-first.png" alt="Privacy First" style="width:60px; height:60px;">
-  </div>
-  <h3>Privacy First</h3>
-  <p>Data encryption, user consent, and full control over your information.</p>
-</div>
-
-<div class="feature-card">
-  <div class="feature-icon">
-    <img src="imagesmulti-platform.png" alt="Multi-Platform Access" style="width:60px; height:60px;">
-  </div>
-  <h3>Multi-Platform Access</h3>
-  <p>Use Echoes on mobile, desktop, or integrated partner apps.</p>
-</div>
-
-<div class="feature-card">
-  <div class="feature-icon">
-    <img src="imagesemotional-support.png" alt="Emotional Support" style="width:60px; height:60px;">
-  </div>
-  <h3>Emotional Support</h3>
-  <p>Connect with personas that offer comfort, guidance, and companionship.</p>
-</div>
-
-<div class="feature-card">
-  <div class="feature-icon">
-    <img src="imagescustom-personalization.png" alt="Custom Personalization" style="width:60px; height:60px;">
-  </div>
-  <h3>Custom Personalization</h3>
-  <p>Adjust tone, style, and memory depth to fit your needs.</p>
-</div>
-
+        <div class="feature-icon">
+          <img src="imagesauthentic-personas.png" alt="Authentic Personas" style="width:60px; height:60px;">
+        </div>
+        <h3>Authentic Personas</h3>
+        <p>AI that mirrors real conversation styles, tone, and emotional depth.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <img src="imagesprivacy-first.png" alt="Privacy First" style="width:60px; height:60px;">
+        </div>
+        <h3>Privacy First</h3>
+        <p>Data encryption, user consent, and full control over your information.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <img src="imagesmulti-platform.png" alt="Multi-Platform Access" style="width:60px; height:60px;">
+        </div>
+        <h3>Multi-Platform Access</h3>
+        <p>Use Echoes on mobile, desktop, or integrated partner apps.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <img src="imagesemotional-support.png" alt="Emotional Support" style="width:60px; height:60px;">
+        </div>
+        <h3>Emotional Support</h3>
+        <p>Connect with personas that offer comfort, guidance, and companionship.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <img src="imagescustom-personalization.png" alt="Custom Personalization" style="width:60px; height:60px;">
+        </div>
+        <h3>Custom Personalization</h3>
+        <p>Adjust tone, style, and memory depth to fit your needs.</p>
+      </div>
     </div>
   </section>
-
-<section id="vision" class="section vision-section">
-  <div class="vision-content">
-    <!-- Left: Title -->
-    <div class="vision-title">
-      Our Vision
+  <section id="vision" class="section vision-section">
+    <div class="vision-content">
+      <div class="vision-title">Our Vision</div>
+      <div class="vision-text">
+        <p>
+          We believe memories are more than photos or videos—they’re conversations, emotions, and shared experiences.
+          Our vision is to make those moments eternal, bridging emotional distances and preserving legacies.
+          Echoes is a step toward a future where technology strengthens human bonds while respecting ethical boundaries.
+        </p>
+      </div>
     </div>
-
-    <!-- Right: Paragraph + Image -->
-    <div class="vision-text">
-      <p>
-        We believe memories are more than photos or videos—they’re conversations, emotions, and shared experiences. 
-        Our vision is to make those moments eternal, bridging emotional distances and preserving legacies. 
-        Echoes is a step toward a future where technology strengthens human bonds while respecting ethical boundaries.
-      </p>
-      <!-- Add image here -->
-
+  </section>
+  <section id="contact" class="section">
+    <h2>Contact Us</h2>
+    <div class="blob1"></div>
+    <div class="blob2"></div>
+    <div class="blob3"></div>
+    <form action="https://formspree.io/f/xovlblwk" method="POST">
+      <input type="text" name="name" placeholder="Your Name*" required>
+      <input type="email" name="email" placeholder="Your Email*" required>
+      <textarea name="message" placeholder="Your Valuable Suggestions & Feedback" rows="3" required></textarea>
+      <button type="submit">SEND!</button>
+    </form>
+    <div class="icons">
+      <a href="tel:+918106270395" title="Call Me">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#34A853">
+          <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.2.48 2.5.74 3.83.74a1 1 0 011 1v3.5a1 1 0 01-1 1C10.07 21 3 13.93 3 5.5a1 1 0 011-1H7.5a1 1 0 011 1c0 1.33.26 2.63.74 3.83a1 1 0 01-.21 1.11l-2.2 2.2z"/>
+        </svg>
+      </a>
+      <a href="mailto:kappalaakshay@gmail.com" title="Send Email">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" width="30" height="30" alt="Gmail">
+      </a>
+      <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+        <svg width="30" height="30" viewBox="0 0 34 34" fill="#0077B5" xmlns="http://www.w3.org/2000/svg">
+          <path d="M34,34h-6.6V23.3c0-2.5-0.1-5.7-3.5-5.7c-3.5,0-4,2.7-4,5.5V34h-6.6V11.5h6.3v3.1h0.1
+            c0.9-1.6,3.1-3.2,6.3-3.2C32.9,11.4,34,17.3,34,23.3V34z M5.3,9.5c-2.1,0-3.8-1.7-3.8-3.8C1.5,3.7,3.2,2,5.3,2s3.8,1.7,3.8,3.8
+            C9.1,7.8,7.4,9.5,5.3,9.5z M8.6,34H2V11.5h6.6V34z"/>
+        </svg>
+      </a>
     </div>
-  </div>
-</section>
-
-
- <section id="contact" class="section">
-  <h2>Contact Us</h2>
-  <div class="blob1"></div>
-<div class="blob2"></div>
-<div class="blob3"></div>
-
-  <form action="https://formspree.io/f/xovlblwk" method="POST" style="font-family:'Playfair Display', serif; max-width:460px; margin:auto; display:flex; flex-direction:column; gap:12px;">
-    
-    <input type="text" name="name" placeholder="Your Name*" required
-           style="padding:12px; border-radius:8px; border:1px solid #ccc; font-size:1rem; background:#fff; transition:0.2s; font-family:'Playfair Display', serif;">
-    
-    <input type="email" name="email" placeholder="Your Email*" required
-           style="padding:12px; border-radius:8px; border:1px solid #ccc; font-size:1rem; background:#fff; transition:0.2s; font-family:'Playfair Display', serif;">
-    
-    <textarea name="message" placeholder="Your Valuable Suggestions & Feedback" rows="2" style="resize: vertical; padding:12px; border-radius:8px; border:1px solid #ccc; font-size:1rem; background:#fff; transition:0.2s; font-family:'Playfair Display', serif;" required></textarea>
-    
-    <button type="submit" style="padding:12px; border-radius:10px; background:#F5E0D3; color:#3A3341; border:none; font-weight:700; font-family:'Playfair Display', serif; cursor:pointer; transition:0.2s;">
-      SEND!
-    </button>
-  </form>
-<div class="icons" style="display:flex; justify-content:center; gap:46px; margin-top:20px; align-items:center;">
-  
-  <!-- Phone (official Material Design style) -->
- <!-- Standard Phone Icon -->
-<a href="tel:+918106270395" title="Call Me" style="display:flex; align-items:center;">
-  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#34A853">
-    <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.2.48 2.5.74 3.83.74a1 1 0 011 1v3.5a1 1 0 01-1 1C10.07 21 3 13.93 3 5.5a1 1 0 011-1H7.5a1 1 0 011 1c0 1.33.26 2.63.74 3.83a1 1 0 01-.21 1.11l-2.2 2.2z"/>
-  </svg>
-</a>
-
-
-  <!-- Gmail (official Gmail logo) -->
-  <a href="mailto:kappalaakshay@gmail.com" title="Send Email" style="display:flex; align-items:center;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" width="30" height="30" alt="Gmail">
-  </a>
-
-  <!-- LinkedIn (already standard) -->
-  <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" title="LinkedIn" style="display:flex; align-items:center;">
-    <svg width="30" height="30" viewBox="0 0 34 34" fill="#0077B5" xmlns="http://www.w3.org/2000/svg">
-      <path d="M34,34h-6.6V23.3c0-2.5-0.1-5.7-3.5-5.7c-3.5,0-4,2.7-4,5.5V34h-6.6V11.5h6.3v3.1h0.1
-        c0.9-1.6,3.1-3.2,6.3-3.2C32.9,11.4,34,17.3,34,23.3V34z M5.3,9.5c-2.1,0-3.8-1.7-3.8-3.8C1.5,3.7,3.2,2,5.3,2s3.8,1.7,3.8,3.8
-        C9.1,7.8,7.4,9.5,5.3,9.5z M8.6,34H2V11.5h6.6V34z"/>
-    </svg>
-  </a>
-
+    <div class="footer-links">© 2025 Echoes</div>
+  </section>
 </div>
-
-
-  <div class="footer-links" style="margin-top:16px; font-size:.85rem; color: #333;">
-    © 2025 Echoes 
-  </div>
-</section>
-
-</div>
-
 <script>
-/* smooth anchor inside our scroll container */
 document.querySelectorAll('.nav a, .btn').forEach(link=>{
   link.addEventListener('click', e=>{
     const href = link.getAttribute('href') || '';
@@ -640,9 +467,10 @@ document.querySelectorAll('.nav a, .btn').forEach(link=>{
   });
 });
 </script>
-
 </body>
 </html>
+
+
 
 
 
