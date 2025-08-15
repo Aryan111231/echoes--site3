@@ -87,32 +87,34 @@
       .section h2 { margin-top: 15px; }
     }
 
-    /* ABOUT SLIDE (Special: Fill viewport below navbar and center content) */
-    /* ABOUT SLIDE (Special: Fill viewport below navbar and center content) */
-#about.section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    /* ABOUT SLIDE (fill full viewport) */
+    #about.section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-  /* FIX: Make it fill full screen */
-  min-height: 100vh;
-  height: 100vh;
-  max-height: 100vh;
+      min-height: 100vh;
+      height: 100vh;
+      max-height: 100vh;
 
-  /* Push content below navbar */
-  padding-top: var(--nav-h) !important;
-  margin: 0 !important;
+      padding-top: var(--nav-h) !important;
+      margin: 0 !important;
 
-  box-sizing: border-box;
-  background: linear-gradient(
-    270deg,
-    #e8dace, #ddceb8, #fff59d, #c9eee0, #a0c4ff, #ccb5cc, #e7debd
-  );
-  background-size: 1400% 1400%;
-  animation: rainbowMove 30s ease infinite;
-  color: rgb(56, 26, 3);
-}
+      box-sizing: border-box;
+      background: linear-gradient(
+        270deg,
+        #e8dace, #ddceb8, #fff59d, #c9eee0, #a0c4ff, #ccb5cc, #e7debd
+      );
+      background-size: 1400% 1400%;
+      animation: rainbowMove 30s ease infinite;
+      color: rgb(56, 26, 3);
+    }
+    @keyframes rainbowMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
     .logo-text { font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(44px,7vw,88px); margin-bottom:10px; }
     .hero-sub {
@@ -131,180 +133,109 @@
     }
     .btn:hover { background:#222; color:#fff; transform:translateY(-2px); }
 
-    /* Features section - All 5 cards in ONE SLIDE */
-   /* Features grid - desktop */
-/* === Desktop Defaults === */
-#features .features-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  max-width: 980px;
-  margin: 0 auto;
-  justify-content: center;
-}
+    /* === Desktop Defaults — Features grid === */
+    #features .features-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      max-width: 980px;
+      margin: 0 auto;
+      justify-content: center;
+      width: 100%;
+    }
 
-.feature-card {
-  background: #fff;
-  border: 1.5px solid var(--text);
-  border-radius: 14px;
-  padding: 22px 18px;
-  box-sizing: border-box;
-  flex: 1 1 calc(33.333% - 32px);
-  max-width: calc(33.333% - 32px);
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 1;
-}
+    .feature-card {
+      background: #fff;
+      border: 1.5px solid var(--text);
+      border-radius: 14px;
+      padding: 22px 18px;
+      box-sizing: border-box;
+      flex: 1 1 calc(33.333% - 32px);
+      max-width: calc(33.333% - 32px);
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-card h3 { font-size: 1.18rem; margin: 8px 0 6px; }
+    .feature-card p { font-size: .97rem; line-height: 1.35; margin: 0; }
+    .feature-icon img { display: block; margin: 0 auto 12px; max-width: 80px; height: auto; transition: transform 0.4s ease; }
+    .feature-card:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0,0,0,0.10); }
+    .feature-card:hover .feature-icon img { transform: scale(1.10) rotate(5deg); }
 
-.feature-card h3 {
-  font-size: 1.18rem;
-  margin: 8px 0 6px;
-}
+    /* === Mobile: turn Features into a full-height horizontal carousel (touch devices only) === */
+    @media only screen and (max-width: 900px) and (pointer: coarse) {
+      /* keep vertical snap between sections */
+      #features.section {
+        min-height: 100vh;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: calc(var(--nav-h) + 10px) 0 14px; /* tighter padding so slide fits */
+        box-sizing: border-box;
+      }
+      #features h2 {
+        margin: 10px 0 12px;
+      }
 
-.feature-card p {
-  font-size: 0.97rem;
-  line-height: 1.35;
-  margin: 0;
-}
+      #features .features-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 0;                 /* one card per view */
+        width: 100%;
+        height: calc(100vh - var(--nav-h) - 110px); /* fill remaining space under title */
+        scrollbar-width: none;  /* hide scrollbar (Firefox) */
+      }
+      #features .features-grid::-webkit-scrollbar { display: none; } /* hide scrollbar (WebKit) */
 
-.feature-icon img {
-  display: block;
-  margin: 0 auto 12px;
-  max-width: 80px;
-  height: auto;
-  transition: transform 0.4s ease;
-}
+      .feature-card {
+        flex: 0 0 100%;
+        max-width: 100%;
+        scroll-snap-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100%;           /* each card fills the carousel viewport */
+        border-radius: 16px;
+        margin: 0;              /* no side margins so it’s truly full width */
+      }
+      .feature-icon img { max-width: 60px; margin-bottom: 8px; }
+      .feature-card h3 { font-size: 1.05rem; margin: 6px 0; }
+      .feature-card p { font-size: .9rem; line-height: 1.35; }
+    }
 
-.feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
-}
-
-.feature-card:hover .feature-icon img {
-  transform: scale(1.10) rotate(5deg);
-}
-
-/* === Mobile Version: 5 stacked in one full-slide === */
-@media only screen and (max-width: 900px) and (pointer: coarse) {
-  #features.section {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: calc(var(--nav-h) + 10px) 14px 14px;
-    box-sizing: border-box;
-    scroll-snap-align: start;
-  }
-
-  #features .features-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 1fr); /* 5 equal vertical slots */
-    gap: 14px;
-    height: 100%; /* make grid fill slide */
-  }
-
-  .feature-card {
-    max-width: 100%;
-    padding: 14px 12px;
-    flex: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .feature-icon img {
-    max-width: 50px;
-    margin-bottom: 8px;
-  }
-
-  .feature-card h3 {
-    font-size: 1rem;
-    margin: 4px 0;
-  }
-
-  .feature-card p {
-    font-size: 0.85rem;
-    line-height: 1.3;
-  }
-}
-
-/* === Vision Section === */
-.vision-section {
-  position: relative;
-  background: linear-gradient(
-      135deg,
-      rgba(241, 205, 209, 0.4),
-      rgba(242, 222, 193, 0.4),
-      rgba(255, 217, 61, 0.4),
-      rgba(150, 231, 161, 0.4),
-      rgba(168, 199, 242, 0.4)
-    ),
-    url('vision-bg.png') center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: #000;
-  overflow: hidden;
-  scroll-snap-align: start;
-}
-
-.vision-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  max-width: 1100px;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.vision-title {
-  flex: 1;
-  min-width: 220px;
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 800;
-  color: #000;
-  text-align: left;
-}
-
-.vision-text {
-  position: relative;
-  flex: 2;
-  min-width: 250px;
-  background: rgba(255, 255, 255, 0.3);
-  padding: 20px 30px;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: #000;
-  overflow: hidden;
-}
-
-.vision-text p {
-  margin: 0;
-}
-
-@media (max-width: 900px) {
-  .vision-content {
-    flex-direction: column;
-    gap: 28px;
-    text-align: center;
-  }
-
-  .vision-title {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-
-
-     
+    /* === Vision Section === */
+    .vision-section {
+      position: relative;
+      background: linear-gradient(
+          135deg,
+          rgba(241, 205, 209, 0.4),
+          rgba(242, 222, 193, 0.4),
+          rgba(255, 217, 61, 0.4),
+          rgba(150, 231, 161, 0.4),
+          rgba(168, 199, 242, 0.4)
+        ),
+        url('vision-bg.png') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #000;
+      overflow: hidden;
+      scroll-snap-align: start;
+    }
+    .vision-content { position:relative; z-index:1; display:flex; align-items:center; gap:40px; max-width:1100px; width:100%; flex-wrap:wrap; }
+    .vision-title { flex:1; min-width:220px; font-family:'Playfair Display',serif; font-size:clamp(36px,4vw,52px); font-weight:800; color:#000; text-align:left; }
+    .vision-text { position:relative; flex:2; min-width:250px; background:rgba(255,255,255,0.3); padding:20px 30px; border-radius:20px; box-shadow:0 8px 20px rgba(0,0,0,0.2); font-size:1.2rem; line-height:1.6; color:#000; overflow:hidden; }
+    .vision-text p { margin:0; }
+    @media (max-width: 900px) {
+      .vision-content { flex-direction:column; gap:28px; text-align:center; }
+      .vision-title { width:100%; text-align:center; }
+    }
 
     /* Contact Section */
     #contact {
@@ -334,11 +265,7 @@
       transition: all 0.3s;
       margin-bottom: 2px;
     }
-    #contact button:hover {
-      background: #222;
-      color: #fff;
-      transform: translateY(-2px);
-    }
+    #contact button:hover { background: #222; color: #fff; transform: translateY(-2px); }
     #contact .icons { display:flex; justify-content:center; gap:32px; margin-top:22px; position:relative; z-index:1; }
     #contact .icons a { display:inline-flex; align-items:center; justify-content:center; transition:transform .3s, filter .3s; }
     #contact .icons a:hover { transform:translateY(-5px) scale(1.15); filter:brightness(1.2); }
@@ -363,6 +290,7 @@
       </div>
     </div>
   </nav>
+
   <section id="about" class="section">
     <div class="logo-text">Echoes</div>
     <p class="hero-sub">
@@ -373,6 +301,7 @@
     </p>
     <a class="btn" href="#features">Get Started</a>
   </section>
+
   <section id="features" class="section">
     <h2>Features</h2>
     <div class="features-grid">
@@ -413,6 +342,7 @@
       </div>
     </div>
   </section>
+
   <section id="vision" class="section vision-section">
     <div class="vision-content">
       <div class="vision-title">Our Vision</div>
@@ -425,6 +355,7 @@
       </div>
     </div>
   </section>
+
   <section id="contact" class="section">
     <h2>Contact Us</h2>
     <div class="blob1"></div>
@@ -456,7 +387,9 @@
     <div class="footer-links">© 2025 Echoes</div>
   </section>
 </div>
+
 <script>
+/* Smooth anchor scrolling */
 document.querySelectorAll('.nav a, .btn').forEach(link=>{
   link.addEventListener('click', e=>{
     const href = link.getAttribute('href') || '';
@@ -466,9 +399,75 @@ document.querySelectorAll('.nav a, .btn').forEach(link=>{
     }
   });
 });
+
+/* Mobile auto-rotate for Features carousel (touch devices only) */
+(function () {
+  const mq = window.matchMedia('(max-width: 900px) and (pointer: coarse)');
+
+  function setupCarousel() {
+    const grid = document.querySelector('#features .features-grid');
+    if (!grid) return;
+    const cards = Array.from(grid.children);
+    if (!mq.matches || cards.length <= 1) return;
+
+    // ensure we're in "carousel mode": one card per view
+    // (CSS handles layout; JS just auto-rotates)
+    let index = 0;
+    let isUserInteracting = false;
+    const stepMs = 3000;
+
+    // Stop autoplay on any user interaction
+    ['touchstart','mousedown','wheel','keydown'].forEach(evt=>{
+      grid.addEventListener(evt, ()=>{ isUserInteracting = true; }, {passive:true});
+    });
+
+    function goTo(i) {
+      const target = cards[i];
+      if (!target) return;
+      grid.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+    }
+
+    function tick() {
+      if (!mq.matches) return;             // only run on mobile touch
+      if (!isUserInteracting) {
+        index = (index + 1) % cards.length;
+        goTo(index);
+      }
+    }
+
+    // Auto-rotate
+    setInterval(tick, stepMs);
+
+    // Keep index in sync when user swipes
+    let debounce;
+    grid.addEventListener('scroll', () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        // find nearest slide
+        const scrollLeft = grid.scrollLeft;
+        let nearest = 0, minDelta = Infinity;
+        cards.forEach((card, i) => {
+          const delta = Math.abs(card.offsetLeft - scrollLeft);
+          if (delta < minDelta) { minDelta = delta; nearest = i; }
+        });
+        index = nearest;
+        // after a moment with no interaction, autoplay can resume
+        isUserInteracting = false;
+      }, 120);
+    }, { passive: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupCarousel);
+  } else {
+    setupCarousel();
+  }
+})();
 </script>
 </body>
 </html>
+
+
 
 
 
