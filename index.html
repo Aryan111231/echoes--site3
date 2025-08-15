@@ -7,6 +7,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Libertinus+Sans&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="vision-bg.png">
 
 
 <style>
@@ -15,7 +16,7 @@
   --skin:#F5E0D3;
   --grey:#E8E6E3;
   --text:#3A3341;
-  --nav-h:64px;
+  --nav-h:64px; /* will be updated via JS to actual navbar height */
 }
 
 * { box-sizing:border-box; }
@@ -29,9 +30,16 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 }
 
 /* Navbar */
-.nav{ position:sticky; top:0; z-index:50; height:var(--nav-h);
-  display:flex; align-items:center;
-  background:rgba(255,255,255,.75); backdrop-filter:blur(8px);
+.nav{ 
+  position:sticky; 
+  top:0; 
+  z-index:50; 
+  /* CHANGED: let height auto so it can grow on mobile; keep a minimum for desktop */
+  min-height: var(--nav-h);
+  display:flex; 
+  align-items:center;
+  background:rgba(255,255,255,.75); 
+  backdrop-filter:blur(8px);
   border-bottom:1px solid rgba(0,0,0,.06);
 }
 
@@ -43,33 +51,65 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap; /* allow wrapping on small screens */
 }
 
 .nav .brand-logo {
-  margin: 0; /* remove any margin */
+  margin: 0; 
   display: flex;
   align-items: center;
 }
 
 .nav .brand-logo img {
   display: block;
-  margin: 0;  /* remove auto centering */
+  margin: 0;
   width: 200px;
   height: auto;
 }
 
-
-
 .header-logo { 
   display: block; 
-  margin-left: 0; /* flush with left edge of brand container */
+  margin-left: 0;
   width: 200px; 
   height: auto; 
 }
 
-
-.nav a{ color:var(--text); text-decoration:none; font-weight:600; margin-left:20px; }
+.nav a{ 
+  color:var(--text); 
+  text-decoration:none; 
+  font-weight:600; 
+  margin-left:20px; 
+}
 .nav a:hover{ color:#000; }
+
+/* Mobile adjustments (UPDATED) */
+@media (max-width: 768px) {
+  .nav-inner {
+    /* keep logo and links side-by-side, but allow wrapping cleanly */
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .nav-inner div {
+    display: flex;
+    flex-wrap: wrap; /* allow links to go to next line */
+    justify-content: center;
+    gap: 12px; /* spacing between links */
+    margin-top: 0; /* no extra push down */
+  }
+
+  .nav a {
+    margin-left: 0; /* remove desktop spacing */
+    font-size: 14px; /* slightly smaller */
+  }
+
+  .brand-logo img {
+    width: 160px; /* scale logo down */
+  }
+}
 
 
 /* Sections = slides */
@@ -81,6 +121,17 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 .section:nth-child(even){ background:var(--grey); }
 .section:nth-child(odd){ background:var(--skin); }
 .section h2{ font-family:'Playfair Display',serif; font-size:clamp(28px,3.5vw,44px); margin:0 0 10px; }
+
+/* Make sections expand on small screens so text never gets clipped */
+@media (max-width: 900px) {
+  .section{
+    /* override fixed height on mobile: allow growth while still filling screen at least once */
+    height:auto;
+    min-height:100svh;
+    padding-top:calc(24px + var(--nav-h));
+    padding-bottom:24px;
+  }
+}
 
 /* First slide rainbow animation */
 #about {
@@ -191,8 +242,6 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 }
 
 /* Vision Section */
-/* Vision Section */
-/* Vision Section */
 .vision-section {
   position: relative;
   background: 
@@ -207,8 +256,6 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   overflow: hidden;
   color: #000;
 }
-
-
 
 /* Floating abstract shapes */
 .vision-section::before,
@@ -305,21 +352,25 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 @keyframes slideInLeft { to { opacity: 1; transform: translateX(0); } }
 @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
 
-/* Responsive */
+/* Responsive fix for Vision */
 @media (max-width: 900px) {
-  .vision-content { flex-direction: column; text-align: center; }
+  .vision-section {
+    min-height: auto; /* let it grow with content */
+    padding: 40px 20px;
+  }
+  .vision-content { 
+    flex-direction: column; 
+    gap: 20px; 
+    text-align: center; 
+  }
   .vision-title, .vision-text {
-    transform: translateY(30px) !important;
+    transform: none !important;
     animation-delay: 0.2s !important;
     text-align: center;
   }
-}
-@media (max-width: 600px) {
   .vision-title { font-size: clamp(28px, 6vw, 36px); }
   .vision-text { font-size: 1rem; padding: 15px 20px; }
 }
-
-
 
 
 /* Contact */
@@ -404,6 +455,11 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   margin-top: 30px;
   position: relative;
   z-index: 1;
+}
+
+/* make icons reasonable on phones (won't affect desktop) */
+@media (max-width: 768px) {
+  #contact .icons { gap: 36px; }
 }
 
 #contact .icons a {
@@ -661,6 +717,16 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 </div>
 
 <script>
+/* Update CSS var to the *actual* navbar height so anchor targets aren't hidden */
+function _setNavHeightVar(){
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+  const h = nav.offsetHeight;
+  document.documentElement.style.setProperty('--nav-h', h + 'px');
+}
+window.addEventListener('load', _setNavHeightVar);
+window.addEventListener('resize', _setNavHeightVar);
+
 /* smooth anchor inside our scroll container */
 document.querySelectorAll('.nav a, .btn').forEach(link=>{
   link.addEventListener('click', e=>{
@@ -675,5 +741,4 @@ document.querySelectorAll('.nav a, .btn').forEach(link=>{
 
 </body>
 </html>
-
 
