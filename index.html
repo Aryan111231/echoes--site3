@@ -26,187 +26,248 @@
     }
 
     /* STICKY NAVBAR */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 9999;
-      height: var(--nav-h);
-      min-height: var(--nav-h);
-      max-height: var(--nav-h);
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      width: 100%;
-      display: flex;
-      align-items: center;
-    }
-    .nav-inner {
-      width: 100%;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    .nav .brand-logo img { width: 160px; height: auto; display: block; }
-    .header-logo { width: 160px; height: auto; }
-    .nav a {
-      color: var(--text); text-decoration: none; font-weight: 600; margin-left: 20px; font-size: 16px;
-      transition: color 0.25s;
-    }
-    .nav a:hover { color: #000; }
-    @media (max-width: 768px) {
-      .nav-inner { flex-direction: column; align-items: center; padding: 10px 20px; }
-      .nav-inner div { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 8px; }
-      .nav a { margin-left: 0; font-size: 15px; }
-      .nav .brand-logo img { width: 120px; }
-    }
+   /* STICKY NAVBAR */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  height: var(--nav-h);
+  min-height: var(--nav-h);
+  max-height: var(--nav-h);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
 
-    /* ALL SECTIONS (Slides) */
-    .section {
-      min-height: 100vh;
-      scroll-snap-align: start;
-      box-sizing: border-box;
-      padding: calc(var(--nav-h) + 20px) 20px 20px 20px; /* Space for navbar above */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-      background: var(--skin);
-    }
-    .section h2 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(28px,3.5vw,44px);
-      margin: 18px 0 24px 0;
-    }
-    .section:nth-child(even) { background: var(--grey); }
-    @media (max-width: 768px) {
-      .section { padding-top: calc(var(--nav-h) + 40px); padding-bottom: 5vw;}
-      .section h2 { margin-top: 15px; }
-    }
+.nav-inner {
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    /* ABOUT SLIDE (fill full viewport) */
-    #about.section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+.brand-logo {
+  flex: 0 0 auto; /* fixed logo size */
+}
 
-      min-height: 100vh;
-      height: 100vh;
-      max-height: 100vh;
+.nav-links {
+  display: flex;
+  gap: 20px;
+  flex: 1 1 auto; /* take remaining space */
+  justify-content: flex-end; /* push links right */
+  overflow-x: auto; /* scroll if needed */
+  white-space: nowrap;
+}
 
-      padding-top: var(--nav-h) !important;
-      margin: 0 !important;
+.nav-links::-webkit-scrollbar {
+  display: none;
+}
 
-      box-sizing: border-box;
-      background: linear-gradient(
-        270deg,
-        #e8dace, #ddceb8, #fff59d, #c9eee0, #a0c4ff, #ccb5cc, #e7debd
-      );
-      background-size: 1400% 1400%;
-      animation: rainbowMove 30s ease infinite;
-      color: rgb(56, 26, 3);
-    }
-    @keyframes rainbowMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+.nav .brand-logo img {
+  width: 160px;
+  height: auto;
+  display: block;
+}
 
-    .logo-text { font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(44px,7vw,88px); margin-bottom:10px; }
-    .hero-sub {
-      max-width: 1000px;
-      margin: 16px auto 24px;
-      line-height: 1.6;
-      font-family: 'Libertinus Sans', sans-serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: #222;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .btn {
-      display:inline-block; padding:14px 24px; border-radius:12px; font-weight:600; text-decoration:none;
-      background:#f4f4f4; color:#222; border:2px solid #dfc9c9; transition:.3s;
-    }
-    .btn:hover { background:#222; color:#fff; transform:translateY(-2px); }
+.header-logo {
+  width: 160px;
+  height: auto;
+}
 
-    /* === Desktop Defaults — Features grid === */
-    #features .features-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      max-width: 980px;
-      margin: 0 auto;
-      justify-content: center;
-      width: 100%;
-    }
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.25s;
+}
 
-    .feature-card {
-      background: #fff;
-      border: 1.5px solid var(--text);
-      border-radius: 14px;
-      padding: 22px 18px;
-      box-sizing: border-box;
-      flex: 1 1 calc(33.333% - 32px);
-      max-width: calc(33.333% - 32px);
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-    .feature-card h3 { font-size: 1.18rem; margin: 8px 0 6px; }
-    .feature-card p { font-size: .97rem; line-height: 1.35; margin: 0; }
-    .feature-icon img { display: block; margin: 0 auto 12px; max-width: 80px; height: auto; transition: transform 0.4s ease; }
-    .feature-card:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0,0,0,0.10); }
-    .feature-card:hover .feature-icon img { transform: scale(1.10) rotate(5deg); }
+.nav a:hover {
+  color: #000;
+}
 
-    /* === Mobile: turn Features into a full-height horizontal carousel (touch devices only) === */
-    @media only screen and (max-width: 900px) and (pointer: coarse) {
-      /* keep vertical snap between sections */
-      #features.section {
-        min-height: 100vh;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: calc(var(--nav-h) + 10px) 0 14px; /* tighter padding so slide fits */
-        box-sizing: border-box;
-      }
-      #features h2 {
-        margin: 10px 0 12px;
-      }
+/* Mobile tweaks */
+@media (max-width: 768px) {
+  .nav .brand-logo img {
+    width: 120px;
+  }
 
-      #features .features-grid {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        gap: 0;                 /* one card per view */
-        width: 100%;
-        height: calc(100vh - var(--nav-h) - 110px); /* fill remaining space under title */
-        scrollbar-width: none;  /* hide scrollbar (Firefox) */
-      }
-      #features .features-grid::-webkit-scrollbar { display: none; } /* hide scrollbar (WebKit) */
+  .nav-links {
+    gap: 14px;
+  }
 
-      .feature-card {
-        flex: 0 0 100%;
-        max-width: 100%;
-        scroll-snap-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        height: 100%;           /* each card fills the carousel viewport */
-        border-radius: 16px;
-        margin: 0;              /* no side margins so it’s truly full width */
-      }
-      .feature-icon img { max-width: 60px; margin-bottom: 8px; }
-      .feature-card h3 { font-size: 1.05rem; margin: 6px 0; }
-      .feature-card p { font-size: .9rem; line-height: 1.35; }
-    }
+  .nav a {
+    font-size: 15px;
+  }
+}
+
+
+/* ALL SECTIONS */
+.section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  padding: calc(var(--nav-h) + 20px) 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background: var(--skin);
+}
+.section h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,3.5vw,44px);
+  margin: 18px 0 24px;
+}
+.section:nth-child(even) { background: var(--grey); }
+@media (max-width: 768px) {
+  .section { padding-top: calc(var(--nav-h) + 40px); padding-bottom: 5vw; }
+  .section h2 { margin-top: 15px; }
+}
+
+/* ABOUT SLIDE */
+#about.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  padding-top: var(--nav-h) !important;
+  margin: 0 !important;
+  background: linear-gradient(
+    270deg,
+    #e8dace, #ddceb8, #fff59d, #c9eee0, #a0c4ff, #ccb5cc, #e7debd
+  );
+  background-size: 1400% 1400%;
+  animation: rainbowMove 30s ease infinite;
+  color: rgb(56, 26, 3);
+}
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.logo-text {
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:clamp(44px,7vw,88px);
+  margin-bottom:10px;
+}
+.hero-sub {
+  max-width: 1000px;
+  margin: 16px auto 24px;
+  line-height: 1.6;
+  font-family: 'Libertinus Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.btn {
+  display:inline-block;
+  padding:14px 24px;
+  border-radius:12px;
+  font-weight:600;
+  text-decoration:none;
+  background:#f4f4f4;
+  color:#222;
+  border:2px solid #dfc9c9;
+  transition:.3s;
+}
+.btn:hover { background:#222; color:#fff; transform:translateY(-2px); }
+
+/* === Desktop Features grid === */
+#features .features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  max-width: 980px;
+  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+}
+.feature-card {
+  background: #fff;
+  border: 1.5px solid var(--text);
+  border-radius: 14px;
+  padding: 22px 18px;
+  box-sizing: border-box;
+  flex: 1 1 calc(33.333% - 32px);
+  max-width: calc(33.333% - 32px);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+.feature-card h3 { font-size: 1.18rem; margin: 8px 0 6px; }
+.feature-card p { font-size: .97rem; line-height: 1.35; margin: 0; }
+.feature-icon img {
+  display: block;
+  margin: 0 auto 12px;
+  max-width: 80px;
+  height: auto;
+  transition: transform 0.4s ease;
+}
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.10);
+}
+.feature-card:hover .feature-icon img {
+  transform: scale(1.10) rotate(5deg);
+}
+
+/* === Mobile Circular Layout === */
+@media only screen and (max-width: 900px) and (pointer: coarse) {
+  #features.section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--nav-h);
+    box-sizing: border-box;
+  }
+  #features h2 {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #features .features-grid {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+  }
+  .feature-card {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    flex: none;
+    max-width: none;
+    text-align: center;
+    padding: 10px;
+  }
+  /* 5 cards around circle */
+  .feature-card:nth-child(1) { top: 0; left: 50%; transform: translate(-50%, 0); }
+  .feature-card:nth-child(2) { top: 20%; right: 0; transform: translate(0, -50%); }
+  .feature-card:nth-child(3) { bottom: 0; right: 25%; transform: translate(50%, 0); }
+  .feature-card:nth-child(4) { bottom: 0; left: 25%; transform: translate(-50%, 0); }
+  .feature-card:nth-child(5) { top: 20%; left: 0; transform: translate(0, -50%); }
+  .feature-icon img { max-width: 50px; margin-bottom: 6px; }
+  .feature-card h3 { font-size: 0.9rem; margin: 4px 0; }
+  .feature-card p { font-size: 0.8rem; line-height: 1.2; }
+}
+
+
 
     /* === Vision Section === */
     .vision-section {
@@ -277,19 +338,23 @@
 </head>
 <body>
 <div class="viewport">
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="#about" class="brand-logo" aria-label="Echoes — Back to About">
-        <img src="transparent-Photoroom.png" alt="Echoes logo" class="header-logo">
-      </a>
-      <div>
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="#vision">Vision</a>
-        <a href="#contact">Contact</a>
-      </div>
+ <nav class="nav">
+  <div class="nav-inner">
+    <!-- Logo -->
+    <a href="#about" class="brand-logo" aria-label="Echoes — Back to About">
+      <img src="transparent-Photoroom.png" alt="Echoes logo" class="header-logo">
+    </a>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#vision">Vision</a>
+      <a href="#contact">Contact</a>
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <section id="about" class="section">
     <div class="logo-text">Echoes</div>
