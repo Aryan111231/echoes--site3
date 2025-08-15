@@ -16,7 +16,7 @@
   --skin:#F5E0D3;
   --grey:#E8E6E3;
   --text:#3A3341;
-  --nav-h:64px; /* will be updated via JS to actual navbar height */
+  --nav-h:64px;
 }
 
 * { box-sizing:border-box; }
@@ -30,17 +30,16 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 }
 
 /* Navbar */
-.nav{ 
-  position:sticky; 
-  top:0; 
-  z-index:50; 
-  /* CHANGED: let height auto so it can grow on mobile; keep a minimum for desktop */
-  min-height: var(--nav-h);
-  display:flex; 
-  align-items:center;
-  background:rgba(255,255,255,.75); 
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid rgba(0,0,0,.06);
+.nav { 
+  position: sticky; 
+  top: 0; 
+  z-index: 50; 
+  height: var(--nav-h);
+  display: flex; 
+  align-items: center;
+  background: rgba(255,255,255,.75); 
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0,0,0,.06);
 }
 
 .nav-inner {
@@ -74,23 +73,23 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   height: auto; 
 }
 
-.nav a{ 
-  color:var(--text); 
-  text-decoration:none; 
-  font-weight:600; 
-  margin-left:20px; 
+.nav a { 
+  color: var(--text); 
+  text-decoration: none; 
+  font-weight: 600; 
+  margin-left: 20px; 
 }
-.nav a:hover{ color:#000; }
 
-/* Mobile adjustments (UPDATED) */
+.nav a:hover { 
+  color: #000; 
+}
+
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .nav-inner {
-    /* keep logo and links side-by-side, but allow wrapping cleanly */
-    flex-direction: row;
+    flex-direction: column; /* stack logo and links */
     align-items: center;
-    justify-content: center;
-    padding: 10px 12px;
-    gap: 10px;
+    padding: 10px 20px;
   }
 
   .nav-inner div {
@@ -98,7 +97,7 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
     flex-wrap: wrap; /* allow links to go to next line */
     justify-content: center;
     gap: 12px; /* spacing between links */
-    margin-top: 0; /* no extra push down */
+    margin-top: 8px; /* space below logo */
   }
 
   .nav a {
@@ -111,6 +110,25 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   }
 }
 
+/* Desktop fix: keep navbar items inline */
+@media (min-width: 769px) {
+  .nav-inner {
+    flex-wrap: nowrap; /* prevent wrapping */
+  }
+
+  .nav-inner div {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .nav a {
+    white-space: nowrap; /* prevent text from breaking */
+  }
+}
+
+
 
 /* Sections = slides */
 .section{
@@ -121,17 +139,6 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 .section:nth-child(even){ background:var(--grey); }
 .section:nth-child(odd){ background:var(--skin); }
 .section h2{ font-family:'Playfair Display',serif; font-size:clamp(28px,3.5vw,44px); margin:0 0 10px; }
-
-/* Make sections expand on small screens so text never gets clipped */
-@media (max-width: 900px) {
-  .section{
-    /* override fixed height on mobile: allow growth while still filling screen at least once */
-    height:auto;
-    min-height:100svh;
-    padding-top:calc(24px + var(--nav-h));
-    padding-bottom:24px;
-  }
-}
 
 /* First slide rainbow animation */
 #about {
@@ -242,6 +249,7 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 }
 
 /* Vision Section */
+/* Vision Section */
 .vision-section {
   position: relative;
   background: 
@@ -305,7 +313,7 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   font-size: clamp(36px, 4vw, 52px);
   font-weight: 800;
   color: #000;
-  text-shadow: 1px 1px 3px rgba(255,255,255,0.6); /* optional for readability */
+  text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
   opacity: 0;
   transform: translateX(-50px);
   animation: slideInLeft 1s forwards 0.2s;
@@ -314,10 +322,10 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 
 /* Text box */
 .vision-text {
-  position: relative; /* needed for pseudo-element */
+  position: relative;
   flex: 2;
   min-width: 300px;
-  background: rgba(255,255,255,0.3); /* semi-transparent to show background image */
+  background: rgba(255,255,255,0.3);
   padding: 20px 30px;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -336,7 +344,7 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background: url('vision-bg.png') center/cover no-repeat;
-  opacity: 0.2; /* adjust opacity to make text readable */
+  opacity: 0.2;
   border-radius: 20px;
   z-index: 0;
 }
@@ -347,30 +355,44 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   z-index: 1;
 }
 
-
 /* Animations */
 @keyframes slideInLeft { to { opacity: 1; transform: translateX(0); } }
 @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
 
-/* Responsive fix for Vision */
+/* Responsive */
 @media (max-width: 900px) {
-  .vision-section {
-    min-height: auto; /* let it grow with content */
-    padding: 40px 20px;
-  }
-  .vision-content { 
-    flex-direction: column; 
-    gap: 20px; 
-    text-align: center; 
+  .vision-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px; /* tighter gap on mobile */
   }
   .vision-title, .vision-text {
-    transform: none !important;
-    animation-delay: 0.2s !important;
+    width: 100%;
+    min-width: unset;
     text-align: center;
+    transform: translateY(30px) !important;
+    animation-delay: 0.2s !important;
   }
-  .vision-title { font-size: clamp(28px, 6vw, 36px); }
-  .vision-text { font-size: 1rem; padding: 15px 20px; }
+  .vision-text {
+    padding: 15px 20px;
+    font-size: 1rem;
+    word-wrap: break-word;
+    white-space: normal;
+  }
 }
+
+@media (max-width: 600px) {
+  .vision-title {
+    font-size: clamp(28px, 6vw, 36px);
+  }
+  .vision-text {
+    font-size: 1rem;
+    padding: 15px 15px;
+  }
+}
+
+
+
 
 
 /* Contact */
@@ -455,11 +477,6 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
   margin-top: 30px;
   position: relative;
   z-index: 1;
-}
-
-/* make icons reasonable on phones (won't affect desktop) */
-@media (max-width: 768px) {
-  #contact .icons { gap: 36px; }
 }
 
 #contact .icons a {
@@ -717,16 +734,6 @@ body { font-family:'Inter',sans-serif; background:var(--skin); color:var(--text)
 </div>
 
 <script>
-/* Update CSS var to the *actual* navbar height so anchor targets aren't hidden */
-function _setNavHeightVar(){
-  const nav = document.querySelector('.nav');
-  if (!nav) return;
-  const h = nav.offsetHeight;
-  document.documentElement.style.setProperty('--nav-h', h + 'px');
-}
-window.addEventListener('load', _setNavHeightVar);
-window.addEventListener('resize', _setNavHeightVar);
-
 /* smooth anchor inside our scroll container */
 document.querySelectorAll('.nav a, .btn').forEach(link=>{
   link.addEventListener('click', e=>{
@@ -741,4 +748,5 @@ document.querySelectorAll('.nav a, .btn').forEach(link=>{
 
 </body>
 </html>
+
 
