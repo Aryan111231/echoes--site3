@@ -32,8 +32,6 @@
   top: 0;
   z-index: 9999;
   height: var(--nav-h);
-  min-height: var(--nav-h);
-  max-height: var(--nav-h);
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -48,34 +46,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
 }
 
 .brand-logo {
-  flex: 0 0 auto; /* fixed logo size */
+  flex: 0 0 auto; /* keeps logo fixed size */
 }
 
 .nav-links {
   display: flex;
   gap: 20px;
-  flex: 1 1 auto; /* take remaining space */
-  justify-content: flex-end; /* push links right */
+  flex: 1 1 auto;
+  justify-content: flex-end;
   overflow-x: auto; /* scroll if needed */
   white-space: nowrap;
 }
 
 .nav-links::-webkit-scrollbar {
-  display: none;
+  display: none; /* hide scroll bar */
 }
 
-.nav .brand-logo img {
-  width: 160px;
-  height: auto;
-  display: block;
-}
-
+.nav .brand-logo img,
 .header-logo {
   width: 160px;
   height: auto;
+  display: block;
 }
 
 .nav a {
@@ -92,7 +87,12 @@
 
 /* Mobile tweaks */
 @media (max-width: 768px) {
-  .nav .brand-logo img {
+  .nav-inner {
+    padding: 0 12px; /* reduce padding to avoid cutting text */
+  }
+
+  .nav .brand-logo img,
+  .header-logo {
     width: 120px;
   }
 
@@ -340,12 +340,9 @@
 <div class="viewport">
  <nav class="nav">
   <div class="nav-inner">
-    <!-- Logo -->
     <a href="#about" class="brand-logo" aria-label="Echoes — Back to About">
       <img src="transparent-Photoroom.png" alt="Echoes logo" class="header-logo">
     </a>
-
-    <!-- Navigation Links -->
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#features">Features</a>
@@ -354,6 +351,7 @@
     </div>
   </div>
 </nav>
+
 
 
   <section id="about" class="section">
